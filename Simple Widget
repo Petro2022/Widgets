@@ -1,0 +1,24 @@
+import numpy as np
+import pandas as pd
+from matplotlib import pyplot as plt
+from ipywidgets import interact, interactive 
+from IPython.display import display
+def flowprofile (k,mu,q):
+    re=3000
+    rw=0.5
+    pe=4000
+    B=1
+    h=30
+    r=np.linspace(re,rw,500)
+    P=pe-(141.2*q*mu*B*(np.log(re/r))/k/h)
+    y_min=P[np.where(r==rw)]
+    plt.plot(r,P,linewidth=4)
+    plt.axhline(y_min,linewidth=3,color='red')
+    plt.ylim(0,5000)
+    plt.xlabel('r(ft)')
+    plt.ylabel('P(r),psi')
+    plt.title('dynamic pressure profile')
+    plt.grid(True)
+    return r,P
+w=interactive(flowprofile,k=(200,1000),mu=(10,200),q=(100,200))
+display(w)
